@@ -13,127 +13,226 @@
     box-sizing: border-box;
   }
 
-  html, body {
-    height: 100%;
-    overflow: hidden;
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
     font-family: 'Poppins', sans-serif;
     background: #0a0a1a;
     color: #fff;
+    overflow-x: hidden;
+    position: relative;
   }
 
-  /* ====== BUBBLE BACKGROUND ANIMATION ====== */
-  .bubbles {
+  /* ============================================
+     LANGIT-LANGIT: BINTANG + BULAN + AWAN
+     ============================================ */
+  .sky {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 55vh;
     z-index: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg,
+      #05051a 0%,
+      #0d0d3a 35%,
+      #1a1050 65%,
+      #241560 85%,
+      rgba(10,10,26,0) 100%);
     overflow: hidden;
-    pointer-events: none;
   }
 
-  .bubble {
+  /* Bulan */
+  .moon {
     position: absolute;
-    bottom: -150px;
-    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6), rgba(255,255,255,0.05));
+    top: 60px;
+    right: 90px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
-    opacity: 0.5;
-    animation: rise linear infinite;
-    box-shadow: 0 0 20px rgba(255,255,255,0.3), inset 0 0 20px rgba(255,255,255,0.2);
+    background: radial-gradient(circle at 35% 35%, #fffbe6, #ffe9a8 60%, #f5c75a 100%);
+    box-shadow:
+      0 0 40px rgba(255,230,150,0.9),
+      0 0 90px rgba(255,215,0,0.6),
+      0 0 160px rgba(255,215,0,0.35),
+      inset -12px -10px 0 rgba(200,160,60,0.25);
+    animation: moonGlow 5s ease-in-out infinite;
   }
 
-  @keyframes rise {
-    0% {
-      transform: translateY(0) scale(1) rotate(0deg);
-      opacity: 0;
-    }
-    10% { opacity: 0.6; }
-    90% { opacity: 0.6; }
-    100% {
-      transform: translateY(-110vh) scale(1.3) rotate(360deg);
-      opacity: 0;
-    }
+  @keyframes moonGlow {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(255,230,150,0.9), 0 0 90px rgba(255,215,0,0.6), 0 0 160px rgba(255,215,0,0.35), inset -12px -10px 0 rgba(200,160,60,0.25); }
+    50% { transform: scale(1.05); box-shadow: 0 0 55px rgba(255,230,150,1), 0 0 120px rgba(255,215,0,0.75), 0 0 200px rgba(255,215,0,0.45), inset -12px -10px 0 rgba(200,160,60,0.25); }
   }
 
-  /* ====== SLIDES ====== */
-  .slides-container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    z-index: 1;
-  }
-
-  .slide {
+  /* Bintang berkedip */
+  .star {
     position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-    text-align: center;
-    opacity: 0;
-    transform: scale(0.85) translateY(60px);
-    transition: opacity 1s cubic-bezier(0.65, 0, 0.35, 1),
-                transform 1s cubic-bezier(0.65, 0, 0.35, 1);
-    pointer-events: none;
-    overflow-y: auto;
+    background: #fff;
+    border-radius: 50%;
+    animation: twinkle ease-in-out infinite;
   }
 
-  .slide.active {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    pointer-events: auto;
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.15; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.3); }
   }
 
-  .slide.prev {
-    transform: scale(1.15) translateY(-60px);
+  /* Bintang jatuh */
+  .shooting-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 12px 3px rgba(255,255,255,0.9);
+    animation: shoot 6s linear infinite;
   }
 
-  /* Slide-specific gradients */
-  .slide[data-theme="aries"] { background: linear-gradient(135deg, #1a0000 0%, #3d0a0a 40%, #661111 100%); }
-  .slide[data-theme="taurus"] { background: linear-gradient(135deg, #0a1a0a 0%, #14401a 40%, #1e5c28 100%); }
-  .slide[data-theme="gemini"] { background: linear-gradient(135deg, #1a1a00 0%, #4a4400 40%, #7a6f00 100%); }
-  .slide[data-theme="cancer"] { background: linear-gradient(135deg, #00121a 0%, #003d4d 40%, #005a73 100%); }
-  .slide[data-theme="leo"] { background: linear-gradient(135deg, #1a0f00 0%, #4a2900 40%, #7a4400 100%); }
-  .slide[data-theme="virgo"] { background: linear-gradient(135deg, #001a0f 0%, #004a29 40%, #007345 100%); }
-  .slide[data-theme="libra"] { background: linear-gradient(135deg, #0f001a 0%, #29004a 40%, #44007a 100%); }
-  .slide[data-theme="scorpio"] { background: linear-gradient(135deg, #1a000a 0%, #4a0020 40%, #730030 100%); }
-  .slide[data-theme="sagittarius"] { background: linear-gradient(135deg, #0a0a1a 0%, #1e1e4a 40%, #333373 100%); }
-  .slide[data-theme="capricorn"] { background: linear-gradient(135deg, #0a0f1a 0%, #1a2a4a 40%, #2a3f73 100%); }
-  .slide[data-theme="aquarius"] { background: linear-gradient(135deg, #001a1a 0%, #004a4a 40%, #007373 100%); }
-  .slide[data-theme="pisces"] { background: linear-gradient(135deg, #0f001a 0%, #2a004a 40%, #4a0073 100%); }
-
-  .slide::before {
+  .shooting-star::after {
     content: '';
     position: absolute;
+    top: 50%;
+    right: 0;
+    width: 120px;
+    height: 1.5px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.9), transparent);
+    transform: translateY(-50%);
+  }
+
+  @keyframes shoot {
+    0%   { transform: translate(0, 0) rotate(-35deg); opacity: 0; }
+    5%   { opacity: 1; }
+    60%  { opacity: 1; }
+    100% { transform: translate(-600px, 400px) rotate(-35deg); opacity: 0; }
+  }
+
+  /* Awan mengambang */
+  .cloud {
+    position: absolute;
+    background: rgba(180,160,255,0.12);
+    border-radius: 100px;
+    filter: blur(12px);
+    animation: floatCloud linear infinite;
+  }
+
+  .cloud::before,
+  .cloud::after {
+    content: '';
+    position: absolute;
+    background: inherit;
+    border-radius: 50%;
+  }
+
+  .cloud::before {
+    width: 60%;
+    height: 160%;
+    top: -60%;
+    left: 15%;
+  }
+
+  .cloud::after {
+    width: 45%;
+    height: 130%;
+    top: -40%;
+    right: 15%;
+  }
+
+  @keyframes floatCloud {
+    from { transform: translateX(-25vw); }
+    to   { transform: translateX(125vw); }
+  }
+
+  /* ============================================
+     BUBBLE JURUSAN TKJ (ikon komputer/jaringan)
+     ============================================ */
+  .tkj-bubbles {
+    position: fixed;
     inset: 0;
-    background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.08), transparent 60%),
-                radial-gradient(circle at 80% 80%, rgba(255,255,255,0.06), transparent 60%);
+    z-index: 1;
     pointer-events: none;
+    overflow: hidden;
   }
 
-  .slide-content {
+  .tkj-bubble {
+    position: absolute;
+    bottom: -160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 2px solid rgba(255,215,0,0.35);
+    color: rgba(255,225,120,0.9);
+    font-size: 1.6rem;
+    animation: bubbleRise linear infinite;
+    box-shadow:
+      0 0 25px rgba(255,215,0,0.35),
+      inset 0 0 20px rgba(255,215,0,0.2),
+      0 0 60px rgba(100,150,255,0.25);
+  }
+
+  .tkj-bubble i {
+    text-shadow: 0 0 12px rgba(255,215,0,0.9);
+  }
+
+  @keyframes bubbleRise {
+    0% {
+      transform: translateY(0) translateX(0) rotate(0deg) scale(0.8);
+      opacity: 0;
+    }
+    10% { opacity: 0.85; }
+    50% { transform: translateY(-55vh) translateX(40px) rotate(180deg) scale(1.1); }
+    90% { opacity: 0.85; }
+    100% {
+      transform: translateY(-115vh) translateX(-40px) rotate(360deg) scale(0.9);
+      opacity: 0;
+    }
+  }
+
+  /* ============================================
+     KONTEN
+     ============================================ */
+  .content {
     position: relative;
-    z-index: 2;
-    max-width: 900px;
-    width: 100%;
-    animation: fadeInSlide 1.2s ease;
+    z-index: 5;
   }
 
-  @keyframes fadeInSlide {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+  section {
+    min-height: 100vh;
+    padding: 100px 25px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    opacity: 0;
+    transform: translateY(80px);
+    transition: opacity 1s cubic-bezier(0.65,0,0.35,1),
+                transform 1s cubic-bezier(0.65,0,0.35,1);
   }
 
-  /* ====== TYPOGRAPHY ====== */
+  section.reveal {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Background setiap section (transparan agar langit tetap terlihat) */
+  section:nth-child(1) { background: radial-gradient(circle at 50% 40%, rgba(255,215,0,0.10), transparent 70%); }
+  section:nth-child(2) { background: radial-gradient(circle at 50% 40%, rgba(0,200,255,0.10), transparent 70%); }
+  section:nth-child(3) { background: radial-gradient(circle at 50% 40%, rgba(255,0,150,0.10), transparent 70%); }
+  section:nth-child(4) { background: radial-gradient(circle at 50% 40%, rgba(160,0,255,0.10), transparent 70%); }
+
   .zodiac-icon {
     font-size: 5rem;
     margin-bottom: 10px;
     display: inline-block;
     animation: floatIcon 4s ease-in-out infinite;
-    filter: drop-shadow(0 0 30px rgba(255,215,0,0.7));
+    filter: drop-shadow(0 0 30px rgba(255,215,0,0.8));
   }
 
   @keyframes floatIcon {
@@ -143,57 +242,59 @@
 
   .zodiac-name {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     letter-spacing: 8px;
     text-transform: uppercase;
     color: #ffd700;
     margin-bottom: 20px;
-    text-shadow: 0 0 20px rgba(255,215,0,0.6);
+    text-shadow: 0 0 20px rgba(255,215,0,0.7);
     font-weight: 700;
   }
 
   .title {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(2.2rem, 6vw, 4.5rem);
+    font-size: clamp(2rem, 6vw, 4.2rem);
     font-weight: 900;
     background: linear-gradient(135deg, #ffffff 0%, #ffd700 50%, #ff8c00 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: 15px;
-    text-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    text-shadow: 0 8px 30px rgba(0,0,0,0.6);
     letter-spacing: 2px;
   }
 
   .subtitle {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(1rem, 2.2vw, 1.4rem);
+    font-size: clamp(1rem, 2.2vw, 1.35rem);
     font-weight: 300;
     color: #e0e0ff;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
     letter-spacing: 3px;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    text-shadow: 0 4px 15px rgba(0,0,0,0.7);
   }
 
   .info-card {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255,255,255,0.06);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 215, 0, 0.3);
+    border: 1px solid rgba(255,215,0,0.35);
     border-radius: 25px;
     padding: 35px 30px;
     margin: 20px auto;
-    max-width: 700px;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.6),
-                0 0 40px rgba(255,215,0,0.15),
-                inset 0 1px 0 rgba(255,255,255,0.15);
-    transition: all 0.4s ease;
+    max-width: 720px;
+    box-shadow:
+      0 25px 60px rgba(0,0,0,0.7),
+      0 0 50px rgba(255,215,0,0.18),
+      inset 0 1px 0 rgba(255,255,255,0.15);
+    transition: all 0.45s ease;
   }
 
   .info-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 35px 80px rgba(0,0,0,0.7),
-                0 0 60px rgba(255,215,0,0.3);
+    transform: translateY(-6px);
+    border-color: #ffd700;
+    box-shadow:
+      0 35px 85px rgba(0,0,0,0.8),
+      0 0 70px rgba(255,215,0,0.35);
   }
 
   .info-card h3 {
@@ -202,12 +303,12 @@
     color: #ffd700;
     margin-bottom: 15px;
     letter-spacing: 2px;
-    text-shadow: 0 0 20px rgba(255,215,0,0.5);
+    text-shadow: 0 0 20px rgba(255,215,0,0.6);
   }
 
   .info-card p {
     font-size: 1.05rem;
-    line-height: 1.8;
+    line-height: 1.85;
     color: #f0f0ff;
     font-weight: 300;
   }
@@ -215,46 +316,47 @@
   /* ====== HOBI GRID ====== */
   .hobi-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 22px;
     margin-top: 30px;
-    max-width: 850px;
+    max-width: 900px;
     width: 100%;
   }
 
   .hobi-card {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.07);
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255,215,0,0.35);
     border-radius: 20px;
-    padding: 20px 15px;
-    transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.5),
-                inset 0 1px 0 rgba(255,255,255,0.1);
+    padding: 18px 15px;
+    transition: all 0.5s cubic-bezier(0.65,0,0.35,1);
+    box-shadow:
+      0 15px 40px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.12);
     cursor: pointer;
-    overflow: hidden;
-    position: relative;
   }
 
   .hobi-card:hover {
     transform: translateY(-12px) scale(1.05);
     border-color: #ffd700;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.7),
-                0 0 40px rgba(255,215,0,0.4);
+    box-shadow:
+      0 25px 60px rgba(0,0,0,0.8),
+      0 0 45px rgba(255,215,0,0.45);
   }
 
   .hobi-card img {
     width: 100%;
-    height: 110px;
+    height: 115px;
     object-fit: cover;
     border-radius: 12px;
     margin-bottom: 12px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
     transition: transform 0.5s ease;
   }
 
   .hobi-card:hover img {
-    transform: scale(1.1) rotate(2deg);
+    transform: scale(1.08) rotate(2deg);
   }
 
   .hobi-card h4 {
@@ -271,17 +373,17 @@
     font-weight: 300;
   }
 
-  /* ====== PASSION LIST ====== */
+  /* ====== PASSION ====== */
   .passion-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 15px;
-    margin-top: 25px;
+    margin-top: 30px;
   }
 
   .passion-item {
-    background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,140,0,0.1));
+    background: linear-gradient(135deg, rgba(255,215,0,0.22), rgba(255,140,0,0.12));
     border: 1px solid rgba(255,215,0,0.5);
     border-radius: 50px;
     padding: 12px 28px;
@@ -289,8 +391,9 @@
     font-weight: 600;
     color: #fff;
     letter-spacing: 1px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4),
-                0 0 20px rgba(255,215,0,0.2);
+    box-shadow:
+      0 10px 30px rgba(0,0,0,0.5),
+      0 0 22px rgba(255,215,0,0.25);
     transition: all 0.4s ease;
     display: flex;
     align-items: center;
@@ -299,32 +402,89 @@
 
   .passion-item:hover {
     transform: translateY(-5px) scale(1.08);
-    background: linear-gradient(135deg, rgba(255,215,0,0.4), rgba(255,140,0,0.3));
-    box-shadow: 0 15px 40px rgba(0,0,0,0.6),
-                0 0 30px rgba(255,215,0,0.5);
+    background: linear-gradient(135deg, rgba(255,215,0,0.45), rgba(255,140,0,0.3));
+    box-shadow:
+      0 15px 45px rgba(0,0,0,0.7),
+      0 0 35px rgba(255,215,0,0.55);
   }
 
-  .passion-item i {
+  .passion-item i { color: #ffd700; }
+
+  /* ====== SOSIAL ====== */
+  .social-row {
+    margin-top: 28px;
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+    font-size: 1.7rem;
+  }
+
+  .social-row i {
     color: #ffd700;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    filter: drop-shadow(0 0 10px rgba(255,215,0,0.5));
   }
 
-  /* ====== NAVIGATION ====== */
+  .social-row i:hover {
+    transform: scale(1.3) rotate(10deg);
+    color: #fff;
+    filter: drop-shadow(0 0 22px rgba(255,215,0,1));
+  }
+
+  /* ====== SCROLL HINT ====== */
+  .scroll-hint {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,215,0,0.75);
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: pulse 2.2s ease-in-out infinite;
+    z-index: 50;
+    pointer-events: none;
+    text-shadow: 0 0 12px rgba(255,215,0,0.6);
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.35; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+  }
+
+  .scroll-hint.hidden { opacity: 0 !important; }
+
+  /* ====== PROGRESS BAR ====== */
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    background: linear-gradient(90deg, #ffd700, #ff8c00, #ff0066, #a000ff);
+    z-index: 200;
+    box-shadow: 0 0 18px rgba(255,215,0,0.8);
+    transition: width 0.15s linear;
+  }
+
+  /* ====== NAV DOTS (kanan) ====== */
   .nav-dots {
     position: fixed;
-    right: 25px;
+    right: 22px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 14px;
     z-index: 100;
   }
 
   .dot {
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.2);
     border: 2px solid rgba(255,215,0,0.5);
     cursor: pointer;
     transition: all 0.4s ease;
@@ -333,117 +493,23 @@
 
   .dot.active {
     background: #ffd700;
-    transform: scale(1.4);
-    box-shadow: 0 0 20px rgba(255,215,0,0.9),
-                0 0 40px rgba(255,215,0,0.5);
+    transform: scale(1.5);
+    box-shadow: 0 0 20px rgba(255,215,0,1), 0 0 45px rgba(255,215,0,0.6);
   }
 
-  .dot:hover {
-    background: rgba(255,215,0,0.6);
-    transform: scale(1.2);
-  }
-
-  /* ====== ARROW BUTTONS ====== */
-  .nav-arrows {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 20px;
-    z-index: 100;
-  }
-
-  .arrow-btn {
-    width: 55px;
-    height: 55px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.08);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255,215,0,0.5);
-    color: #ffd700;
-    font-size: 1.3rem;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5),
-                0 0 20px rgba(255,215,0,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .arrow-btn:hover {
-    background: rgba(255,215,0,0.25);
-    transform: translateY(-4px) scale(1.1);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.7),
-                0 0 35px rgba(255,215,0,0.5);
-  }
-
-  .arrow-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-  }
-
-  .arrow-btn:disabled:hover {
-    transform: none;
-  }
-
-  /* ====== SCROLL INDICATOR ====== */
-  .scroll-hint {
-    position: fixed;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: rgba(255,215,0,0.7);
-    font-size: 0.85rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    animation: pulse 2s ease-in-out infinite;
-    z-index: 100;
-    pointer-events: none;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 0.4; transform: translateX(-50%) translateY(0); }
-    50% { opacity: 1; transform: translateX(-50%) translateY(-8px); }
-  }
-
-  /* ====== SLIDE NUMBER ====== */
-  .slide-number {
-    position: fixed;
-    top: 25px;
-    left: 30px;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3rem;
-    color: rgba(255,215,0,0.7);
-    letter-spacing: 3px;
-    z-index: 100;
-    text-shadow: 0 0 15px rgba(255,215,0,0.4);
-  }
-
-  /* ====== PROGRESS BAR ====== */
-  .progress-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #ffd700, #ff8c00, #ff0066);
-    z-index: 200;
-    transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-    box-shadow: 0 0 20px rgba(255,215,0,0.7);
-  }
+  .dot:hover { background: rgba(255,215,0,0.6); transform: scale(1.2); }
 
   /* ====== RESPONSIVE ====== */
   @media (max-width: 768px) {
+    .moon { width: 65px; height: 65px; top: 40px; right: 45px; }
+    .zodiac-icon { font-size: 3.5rem; }
     .nav-dots { right: 12px; gap: 10px; }
     .dot { width: 11px; height: 11px; }
-    .arrow-btn { width: 45px; height: 45px; font-size: 1rem; }
-    .info-card { padding: 25px 20px; }
-    .zodiac-icon { font-size: 3.5rem; }
-    .slide-number { font-size: 1rem; top: 15px; left: 15px; }
     .hobi-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .hobi-card img { height: 80px; }
-    .scroll-hint { font-size: 0.7rem; bottom: 90px; }
+    .hobi-card img { height: 85px; }
+    .info-card { padding: 25px 20px; }
+    .tkj-bubble { font-size: 1.2rem; }
+    .scroll-hint { font-size: 0.68rem; letter-spacing: 2px; }
   }
 
   @media (max-width: 480px) {
@@ -457,122 +523,111 @@
 <!-- Progress Bar -->
 <div class="progress-bar" id="progressBar"></div>
 
-<!-- Bubble Background -->
-<div class="bubbles" id="bubbles"></div>
+<!-- ====== LANGIT-LANGIT ====== -->
+<div class="sky" id="sky">
+  <div class="moon"></div>
+  <!-- bintang & awan di-generate JS -->
+</div>
 
-<!-- Slide Number -->
-<div class="slide-number" id="slideNumber">01 / 04</div>
+<!-- ====== BUBBLE JURUSAN TKJ ====== -->
+<div class="tkj-bubbles" id="tkjBubbles"></div>
 
 <!-- Navigation Dots -->
 <div class="nav-dots" id="navDots"></div>
 
-<!-- Arrow Buttons -->
-<div class="nav-arrows">
-  <button class="arrow-btn" id="prevBtn" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
-  <button class="arrow-btn" id="nextBtn" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
-</div>
-
 <!-- Scroll Hint -->
-<div class="scroll-hint" id="scrollHint">Scroll / Swipe ↓</div>
+<div class="scroll-hint" id="scrollHint">Scroll ↓</div>
 
-<!-- Slides -->
-<div class="slides-container" id="slidesContainer">
+<!-- ====== KONTEN ====== -->
+<div class="content">
 
-  <!-- SLIDE 1: INTRO -->
-  <section class="slide active" data-theme="leo">
-    <div class="slide-content">
-      <div class="zodiac-icon">♌</div>
-      <div class="zodiac-name">Leo — Sagitarius Rising</div>
-      <h1 class="title">Muhammad Fadli Fadilah</h1>
-      <p class="subtitle">XI TKJ 4 • Teknik Komputer & Jaringan</p>
-      <div class="info-card">
-        <h3><i class="fas fa-user-astronaut"></i> Tentang Saya</h3>
-        <p>
-          Seorang pelajar yang penuh semangat di jurusan <b>Teknik Komputer & Jaringan (TKJ)</b>,
-          dengan jiwa kreatif dan ambisi besar di dunia digital. Suka tantangan, cepat belajar,
-          dan selalu ingin berkembang menjadi versi terbaik dari diri sendiri.
-        </p>
+  <!-- SECTION 1: INTRO -->
+  <section id="sec1">
+    <div class="zodiac-icon">♌</div>
+    <div class="zodiac-name">Leo — Sagitarius Rising</div>
+    <h1 class="title">Muhammad Fadli Fadilah</h1>
+    <p class="subtitle">XI TKJ 4 • Teknik Komputer &amp; Jaringan</p>
+    <div class="info-card">
+      <h3><i class="fas fa-user-astronaut"></i> Tentang Saya</h3>
+      <p>
+        Seorang pelajar yang penuh semangat di jurusan <b>Teknik Komputer &amp; Jaringan (TKJ)</b>,
+        dengan jiwa kreatif dan ambisi besar di dunia digital. Suka tantangan, cepat belajar,
+        dan selalu ingin berkembang menjadi versi terbaik dari diri sendiri.
+      </p>
+    </div>
+  </section>
+
+  <!-- SECTION 2: HOBI -->
+  <section id="sec2">
+    <div class="zodiac-icon">♐</div>
+    <div class="zodiac-name">Sagittarius — Jiwa Petualang</div>
+    <h1 class="title">Hobi &amp; Aktivitas</h1>
+    <p class="subtitle">Energi Positif Setiap Hari</p>
+    <div class="hobi-grid">
+      <div class="hobi-card">
+        <img src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=500&q=80" alt="Badminton">
+        <h4>🏸 Badminton</h4>
+        <p>Smash &amp; refleks cepat</p>
+      </div>
+      <div class="hobi-card">
+        <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500&q=80" alt="Cycling">
+        <h4>🚴 Cycling</h4>
+        <p>Gowes keliling kota</p>
+      </div>
+      <div class="hobi-card">
+        <img src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=500&q=80" alt="Volleyball">
+        <h4>🏐 Volleyball</h4>
+        <p>Spike &amp; teamwork</p>
+      </div>
+      <div class="hobi-card">
+        <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=500&q=80" alt="Running">
+        <h4>🏃 Running</h4>
+        <p>Lari pagi &amp; endurance</p>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 2: HOBI -->
-  <section class="slide" data-theme="sagittarius">
-    <div class="slide-content">
-      <div class="zodiac-icon">♐</div>
-      <div class="zodiac-name">Sagittarius — Jiwa Petualang</div>
-      <h1 class="title">Hobi & Aktivitas</h1>
-      <p class="subtitle">Energi Positif Setiap Hari</p>
-      <div class="hobi-grid">
-        <div class="hobi-card">
-          <img src="https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=400&q=80" alt="Badminton">
-          <h4>🏸 Badminton</h4>
-          <p>Smash & refleks cepat</p>
-        </div>
-        <div class="hobi-card">
-          <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=400&q=80" alt="Cycling">
-          <h4>🚴 Cycling</h4>
-          <p>Gowes keliling kota</p>
-        </div>
-        <div class="hobi-card">
-          <img src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?w=400&q=80" alt="Volleyball">
-          <h4>🏐 Volleyball</h4>
-          <p>Spike & teamwork</p>
-        </div>
-        <div class="hobi-card">
-          <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=400&q=80" alt="Running">
-          <h4>🏃 Running</h4>
-          <p>Lari pagi & endurance</p>
-        </div>
-      </div>
+  <!-- SECTION 3: PASSION -->
+  <section id="sec3">
+    <div class="zodiac-icon">♑</div>
+    <div class="zodiac-name">Capricorn — Ambisi Tak Terbatas</div>
+    <h1 class="title">Passion &amp; Cita-Cita</h1>
+    <p class="subtitle">Mimpi Yang Sedang Diperjuangkan</p>
+    <div class="info-card">
+      <h3><i class="fas fa-rocket"></i> Visi Masa Depan</h3>
+      <p>
+        Membangun karier di dunia digital sebagai <b>Content Creator</b>,
+        <b>Affiliator</b>, dan <b>Freelancer</b> profesional.
+        Menggabungkan kreativitas, teknologi, dan bisnis online
+        untuk menciptakan karya yang bermanfaat dan menginspirasi banyak orang.
+      </p>
+    </div>
+    <div class="passion-list">
+      <div class="passion-item"><i class="fas fa-video"></i> Content Creator</div>
+      <div class="passion-item"><i class="fas fa-handshake"></i> Affiliator</div>
+      <div class="passion-item"><i class="fas fa-laptop-code"></i> Freelancer</div>
+      <div class="passion-item"><i class="fas fa-chart-line"></i> Digital Marketing</div>
     </div>
   </section>
 
-  <!-- SLIDE 3: PASSION -->
-  <section class="slide" data-theme="capricorn">
-    <div class="slide-content">
-      <div class="zodiac-icon">♑</div>
-      <div class="zodiac-name">Capricorn — Ambisi Tak Terbatas</div>
-      <h1 class="title">Passion & Cita-Cita</h1>
-      <p class="subtitle">Mimpi Yang Sedang Diperjuangkan</p>
-      <div class="info-card">
-        <h3><i class="fas fa-rocket"></i> Visi Masa Depan</h3>
-        <p>
-          Membangun karier di dunia digital sebagai <b>Content Creator</b>,
-          <b>Affiliator</b>, dan <b>Freelancer</b> profesional.
-          Menggabungkan kreativitas, teknologi, dan bisnis online
-          untuk menciptakan karya yang bermanfaat dan menginspirasi banyak orang.
-        </p>
-      </div>
-      <div class="passion-list">
-        <div class="passion-item"><i class="fas fa-video"></i> Content Creator</div>
-        <div class="passion-item"><i class="fas fa-handshake"></i> Affiliator</div>
-        <div class="passion-item"><i class="fas fa-laptop-code"></i> Freelancer</div>
-        <div class="passion-item"><i class="fas fa-chart-line"></i> Digital Marketing</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SLIDE 4: OUTRO -->
-  <section class="slide" data-theme="pisces">
-    <div class="slide-content">
-      <div class="zodiac-icon">♓</div>
-      <div class="zodiac-name">Pisces — Kreativitas Tanpa Batas</div>
-      <h1 class="title">Terima Kasih</h1>
-      <p class="subtitle">Let's Connect & Collaborate</p>
-      <div class="info-card">
-        <h3><i class="fas fa-star"></i> Motto Hidup</h3>
-        <p style="font-style: italic; font-size: 1.15rem; color: #ffd700;">
-          "Terus belajar, terus berkarya, dan jangan pernah berhenti
-          bermimpi besar. Karena setiap langkah kecil hari ini adalah
-          fondasi kesuksesan di masa depan."
-        </p>
-        <div style="margin-top: 25px; display: flex; justify-content: center; gap: 25px; font-size: 1.6rem;">
-          <i class="fab fa-instagram" style="color:#ffd700; cursor:pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.3) rotate(10deg)'" onmouseout="this.style.transform='scale(1)'"></i>
-          <i class="fab fa-youtube" style="color:#ffd700; cursor:pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.3) rotate(10deg)'" onmouseout="this.style.transform='scale(1)'"></i>
-          <i class="fab fa-tiktok" style="color:#ffd700; cursor:pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.3) rotate(10deg)'" onmouseout="this.style.transform='scale(1)'"></i>
-          <i class="fab fa-github" style="color:#ffd700; cursor:pointer; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.3) rotate(10deg)'" onmouseout="this.style.transform='scale(1)'"></i>
-        </div>
+  <!-- SECTION 4: OUTRO -->
+  <section id="sec4">
+    <div class="zodiac-icon">♓</div>
+    <div class="zodiac-name">Pisces — Kreativitas Tanpa Batas</div>
+    <h1 class="title">Terima Kasih</h1>
+    <p class="subtitle">Let's Connect &amp; Collaborate</p>
+    <div class="info-card">
+      <h3><i class="fas fa-star"></i> Motto Hidup</h3>
+      <p style="font-style: italic; font-size: 1.15rem; color: #ffd700;">
+        "Terus belajar, terus berkarya, dan jangan pernah berhenti
+        bermimpi besar. Karena setiap langkah kecil hari ini adalah
+        fondasi kesuksesan di masa depan."
+      </p>
+      <div class="social-row">
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-youtube"></i>
+        <i class="fab fa-tiktok"></i>
+        <i class="fab fa-github"></i>
       </div>
     </div>
   </section>
@@ -580,171 +635,198 @@
 </div>
 
 <script>
-  // ====== GENERATE BUBBLES ======
-  const bubblesContainer = document.getElementById('bubbles');
-  const bubbleColors = [
-    'radial-gradient(circle at 30% 30%, rgba(255,215,0,0.5), rgba(255,215,0,0.05))',
-    'radial-gradient(circle at 30% 30%, rgba(255,140,0,0.5), rgba(255,140,0,0.05))',
-    'radial-gradient(circle at 30% 30%, rgba(255,0,102,0.5), rgba(255,0,102,0.05))',
-    'radial-gradient(circle at 30% 30%, rgba(0,200,255,0.5), rgba(0,200,255,0.05))',
-    'radial-gradient(circle at 30% 30%, rgba(180,0,255,0.5), rgba(180,0,255,0.05))',
-    'radial-gradient(circle at 30% 30%, rgba(0,255,150,0.5), rgba(0,255,150,0.05))'
+  /* ============================================
+     GENERATE BINTANG DI LANGIT
+     ============================================ */
+  const sky = document.getElementById('sky');
+  const starCount = window.innerWidth < 768 ? 70 : 140;
+
+  for (let i = 0; i < starCount; i++) {
+    const star = document.createElement('div');
+    star.className = 'star';
+    const size = Math.random() * 2.4 + 1;
+    star.style.width = size + 'px';
+    star.style.height = size + 'px';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.animationDuration = (Math.random() * 3 + 1.5) + 's';
+    star.style.animationDelay = (Math.random() * 4) + 's';
+    if (Math.random() > 0.85) {
+      star.style.boxShadow = '0 0 8px 2px rgba(255,255,255,0.9)';
+    }
+    sky.appendChild(star);
+  }
+
+  /* Bintang jatuh */
+  for (let i = 0; i < 3; i++) {
+    const shooting = document.createElement('div');
+    shooting.className = 'shooting-star';
+    shooting.style.left = (Math.random() * 60 + 20) + '%';
+    shooting.style.top = (Math.random() * 30) + '%';
+    shooting.style.animationDelay = (i * 4 + Math.random() * 3) + 's';
+    shooting.style.animationDuration = (5 + Math.random() * 3) + 's';
+    sky.appendChild(shooting);
+  }
+
+  /* Awan mengambang */
+  const cloudConfigs = [
+    { w: 260, h: 60, top: '18%', dur: 55, delay: 0 },
+    { w: 200, h: 50, top: '38%', dur: 70, delay: 12 },
+    { w: 320, h: 70, top: '8%',  dur: 85, delay: 25 },
+    { w: 180, h: 45, top: '48%', dur: 65, delay: 40 }
   ];
 
-  function createBubbles() {
-    const count = window.innerWidth < 768 ? 18 : 35;
-    for (let i = 0; i < count; i++) {
-      const bubble = document.createElement('div');
-      bubble.className = 'bubble';
-      const size = Math.random() * 80 + 20;
-      bubble.style.width = size + 'px';
-      bubble.style.height = size + 'px';
-      bubble.style.left = Math.random() * 100 + '%';
-      bubble.style.animationDuration = (Math.random() * 15 + 12) + 's';
-      bubble.style.animationDelay = (Math.random() * 15) + 's';
-      bubble.style.background = bubbleColors[Math.floor(Math.random() * bubbleColors.length)];
-      bubblesContainer.appendChild(bubble);
-    }
+  cloudConfigs.forEach(cfg => {
+    const cloud = document.createElement('div');
+    cloud.className = 'cloud';
+    cloud.style.width = cfg.w + 'px';
+    cloud.style.height = cfg.h + 'px';
+    cloud.style.top = cfg.top;
+    cloud.style.animationDuration = cfg.dur + 's';
+    cloud.style.animationDelay = cfg.delay + 's';
+    sky.appendChild(cloud);
+  });
+
+  /* ============================================
+     GENERATE BUBBLE JURUSAN TKJ
+     Ikon seputar komputer & jaringan
+     ============================================ */
+  const tkjIcons = [
+    'fa-network-wired',
+    'fa-server',
+    'fa-laptop-code',
+    'fa-wifi',
+    'fa-microchip',
+    'fa-ethernet',
+    'fa-database',
+    'fa-shield-halved',
+    'fa-cloud',
+    'fa-code',
+    'fa-terminal',
+    'fa-router' // jika tidak tersedia, ikon lain tetap muncul
+  ];
+
+  const tkjContainer = document.getElementById('tkjBubbles');
+  const bubbleCount = window.innerWidth < 768 ? 14 : 26;
+
+  for (let i = 0; i < bubbleCount; i++) {
+    const bubble = document.createElement('div');
+    bubble.className = 'tkj-bubble';
+
+    const size = Math.random() * 60 + 45;
+    bubble.style.width = size + 'px';
+    bubble.style.height = size + 'px';
+    bubble.style.left = Math.random() * 95 + '%';
+    bubble.style.animationDuration = (Math.random() * 18 + 14) + 's';
+    bubble.style.animationDelay = (Math.random() * 20) + 's';
+    bubble.style.fontSize = (size * 0.4) + 'px';
+
+    /* variasi warna bubble */
+    const hue = Math.floor(Math.random() * 60) + 190; // biru-ungu-emas
+    const isGold = Math.random() > 0.5;
+    const rgb = isGold ? '255,215,0' : `${hue},${hue + 40},255`;
+    bubble.style.borderColor = `rgba(${rgb},0.4)`;
+    bubble.style.background = `radial-gradient(circle at 30% 30%, rgba(${rgb},0.25), rgba(${rgb},0.05))`;
+    bubble.style.boxShadow = `0 0 25px rgba(${rgb},0.4), inset 0 0 20px rgba(${rgb},0.25)`;
+    bubble.style.color = `rgba(${rgb},0.95)`;
+
+    /* ikon */
+    const icon = document.createElement('i');
+    icon.className = 'fas ' + tkjIcons[Math.floor(Math.random() * tkjIcons.length)];
+    bubble.appendChild(icon);
+
+    tkjContainer.appendChild(bubble);
   }
-  createBubbles();
 
-  // ====== SLIDER LOGIC ======
-  const slides = document.querySelectorAll('.slide');
+  /* ============================================
+     REVEAL ON SCROLL
+     ============================================ */
+  const sections = document.querySelectorAll('section');
   const dotsContainer = document.getElementById('navDots');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
   const progressBar = document.getElementById('progressBar');
-  const slideNumber = document.getElementById('slideNumber');
   const scrollHint = document.getElementById('scrollHint');
-  let current = 0;
-  let isAnimating = false;
 
-  // Create dots
-  slides.forEach((_, i) => {
+  /* Buat dot navigasi */
+  sections.forEach((sec, i) => {
     const dot = document.createElement('div');
     dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => goToSlide(i));
+    dot.addEventListener('click', () => {
+      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
     dotsContainer.appendChild(dot);
   });
-
   const dots = document.querySelectorAll('.dot');
 
-  function updateUI() {
-    dots.forEach((d, i) => d.classList.toggle('active', i === current));
-    const progress = ((current + 1) / slides.length) * 100;
-    progressBar.style.width = progress + '%';
-    slideNumber.textContent = String(current + 1).padStart(2, '0') + ' / ' + String(slides.length).padStart(2, '0');
-    prevBtn.disabled = current === 0;
-    nextBtn.disabled = current === slides.length - 1;
-    scrollHint.style.opacity = current === slides.length - 1 ? '0' : '1';
-  }
-
-  function goToSlide(index) {
-    if (isAnimating || index === current || index < 0 || index >= slides.length) return;
-    isAnimating = true;
-
-    const direction = index > current ? 1 : -1;
-    const oldSlide = slides[current];
-    const newSlide = slides[index];
-
-    oldSlide.classList.remove('active');
-    oldSlide.classList.add('prev');
-
-    // Reset new slide position based on direction
-    newSlide.style.transition = 'none';
-    newSlide.style.transform = `scale(0.85) translateY(${direction * 60}px)`;
-    newSlide.style.opacity = '0';
-
-    setTimeout(() => {
-      newSlide.style.transition = '';
-      newSlide.classList.add('active');
-      newSlide.classList.remove('prev');
-      newSlide.style.transform = '';
-      newSlide.style.opacity = '';
-    }, 30);
-
-    setTimeout(() => {
-      oldSlide.classList.remove('prev');
-      current = index;
-      updateUI();
-      isAnimating = false;
-    }, 1000);
-  }
-
-  function nextSlide() { goToSlide(current + 1); }
-  function prevSlide() { goToSlide(current - 1); }
-
-  prevBtn.addEventListener('click', prevSlide);
-  nextBtn.addEventListener('click', nextSlide);
-
-  // Keyboard navigation
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
-      e.preventDefault();
-      nextSlide();
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      prevSlide();
-    }
-  });
-
-  // Mouse wheel
-  let wheelTimeout;
-  document.addEventListener('wheel', (e) => {
-    if (isAnimating) return;
-    clearTimeout(wheelTimeout);
-    wheelTimeout = setTimeout(() => {
-      if (e.deltaY > 30) nextSlide();
-      else if (e.deltaY < -30) prevSlide();
-    }, 50);
-  }, { passive: true });
-
-  // Touch swipe
-  let touchStartY = 0;
-  let touchStartX = 0;
-  document.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-
-  document.addEventListener('touchend', (e) => {
-    const dy = touchStartY - e.changedTouches[0].clientY;
-    const dx = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(dy) > 50 && Math.abs(dy) > Math.abs(dx)) {
-      if (dy > 0) nextSlide();
-      else prevSlide();
-    }
-  }, { passive: true });
-
-  // Prevent scroll inside slide (except if content overflow)
-  slides.forEach(slide => {
-    slide.addEventListener('wheel', (e) => {
-      const canScroll = slide.scrollHeight > slide.clientHeight;
-      if (canScroll) {
-        const atTop = slide.scrollTop === 0;
-        const atBottom = slide.scrollTop + slide.clientHeight >= slide.scrollHeight - 1;
-        if ((e.deltaY < 0 && atTop) || (e.deltaY > 0 && atBottom)) {
-          // allow slide change
-        } else {
-          e.stopPropagation();
-        }
+  /* Intersection Observer untuk reveal + dot active */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('reveal');
+        const idx = Array.from(sections).indexOf(entry.target);
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
       }
     });
+  }, { threshold: 0.35 });
+
+  sections.forEach(sec => observer.observe(sec));
+
+  /* Progress bar + scroll hint */
+  function updateScroll() {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? (scrolled / total) * 100 : 0;
+    progressBar.style.width = pct + '%';
+
+    if (pct > 92) scrollHint.classList.add('hidden');
+    else scrollHint.classList.remove('hidden');
+  }
+
+  window.addEventListener('scroll', updateScroll, { passive: true });
+  updateScroll();
+
+  /* Reveal section pertama saat load */
+  window.addEventListener('load', () => {
+    sections[0].classList.add('reveal');
   });
 
-  // Initialize UI
-  updateUI();
-
-  // Recreate bubbles on resize
+  /* Re-generate efek saat resize */
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      bubblesContainer.innerHTML = '';
-      createBubbles();
-    }, 300);
-  });
-</script>
+      /* bersihkan bintang & awan & bubble */
+      sky.querySelectorAll('.star, .cloud, .shooting-star').forEach(el => el.remove());
+      tkjContainer.innerHTML = '';
 
-</body>
-</html>
+      /* bintang baru */
+      const newStarCount = window.innerWidth < 768 ? 70 : 140;
+      for (let i = 0; i < newStarCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 2.4 + 1;
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDuration = (Math.random() * 3 + 1.5) + 's';
+        star.style.animationDelay = (Math.random() * 4) + 's';
+        sky.appendChild(star);
+      }
+
+      /* awan baru */
+      cloudConfigs.forEach(cfg => {
+        const cloud = document.createElement('div');
+        cloud.className = 'cloud';
+        cloud.style.width = cfg.w + 'px';
+        cloud.style.height = cfg.h + 'px';
+        cloud.style.top = cfg.top;
+        cloud.style.animationDuration = cfg.dur + 's';
+        cloud.style.animationDelay = cfg.delay + 's';
+        sky.appendChild(cloud);
+      });
+
+      /* bintang jatuh baru */
+      for (let i = 0; i < 3; i++) {
+        const shooting = document.createElement('div');
+        shooting.className = 'shooting-star';
+        shooting.style.left = (Math
