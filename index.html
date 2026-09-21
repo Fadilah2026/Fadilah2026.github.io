@@ -1,606 +1,106 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muhammad Fadli Fadilah | Personal Portfolio & Profile</title>
-    
-    <!-- Google Fonts: Fredoka & Poppins for Cheerful & Elegant Typography -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                        cheerful: ['Fredoka', 'cursive'],
-                    },
-                    colors: {
-                        brand: {
-                            purple: '#8B5CF6',
-                            pink: '#EC4899',
-                            cyan: '#06B6D4',
-                            yellow: '#F59E0B',
-                            dark: '#0F172A',
-                        }
-                    },
-                    animation: {
-                        'float-slow': 'float 6s ease-in-out infinite',
-                        'float-medium': 'float 4s ease-in-out infinite',
-                        'bounce-slow': 'bounce 3s infinite',
-                        'pulse-glow': 'pulseGlow 2s ease-in-out infinite alternate',
-                        'wave-move': 'wave 10s linear infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
-                            '50%': { transform: 'translateY(-15px) rotate(5deg)' },
-                        },
-                        pulseGlow: {
-                            '0%': { filter: 'drop-shadow(0 0 10px rgba(236, 72, 153, 0.5))' },
-                            '100%': { filter: 'drop-shadow(0 0 25px rgba(6, 182, 212, 0.8))' },
-                        },
-                        wave: {
-                            '0%': { transform: 'translateX(0)' },
-                            '100%': { transform: 'translateX(-50%)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Saya</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <!-- Three.js Library for 3D Floating Bubbles Canvas -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      background-color: #f4f7f6;
+      color: #333;
+    }
 
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: #0B0F19;
-            color: #F3F4F6;
-            overflow-x: hidden;
-        }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
 
-        /* Glassmorphism Effect */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
+    header {
+      background: linear-gradient(135deg, #2b5876, #4e4376);
+      color: #fff;
+      padding: 60px 0;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-        .glass-card-bright {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 12px 40px 0 rgba(139, 92, 246, 0.25);
-        }
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
 
-        /* Text Gradient Effect */
-        .text-gradient {
-            background: linear-gradient(135deg, #FF6B6B 0%, #A855F7 50%, #3B82F6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    main {
+      margin-top: 30px;
+      margin-bottom: 30px;
+    }
 
-        .text-gradient-cheerful {
-            background: linear-gradient(90deg, #F59E0B, #EC4899, #8B5CF6, #06B6D4);
-            background-size: 300% 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientShift 6s ease infinite;
-        }
+    .card {
+      background: #fff;
+      padding: 25px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+    .card h2 {
+      color: #2b5876;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #eef2f5;
+      padding-bottom: 8px;
+    }
 
-        /* 3D Canvas Background */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            pointer-events: auto;
-        }
+    .card ul {
+      padding-left: 20px;
+    }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0B0F19;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(to bottom, #EC4899, #8B5CF6);
-            border-radius: 4px;
-        }
+    .card li {
+      margin-bottom: 8px;
+    }
 
-        /* Wave Effect Container */
-        .wave-bg {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 200%;
-            height: 120px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.37,130.83,121.3,200,110Z' fill='rgba(139, 92, 246, 0.15)'%3E%3C/path%3E%3C/svg%3E") repeat-x;
-        }
-
-        /* Smooth Section Slide Transition */
-        .section-slide {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .section-slide.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Interactive Tag Bubble Pulse */
-        .bubble-tag {
-            transition: all 0.3s ease;
-        }
-        .bubble-tag:hover {
-            transform: scale(1.1) translateY(-5px);
-            box-shadow: 0 10px 25px -5px rgba(236, 72, 153, 0.5);
-        }
-
-        /* Splash Screen Overlay */
-        #splash-screen {
-            transition: opacity 0.8s ease-out, visibility 0.8s;
-        }
-    </style>
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      color: #777;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
-<body class="relative min-h-screen select-none">
+<body>
 
-    <!-- Splash Screen / Opening Smooth Animation -->
-    <div id="splash-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-950 text-white">
-        <div class="relative flex flex-col items-center">
-            <!-- Animated Glowing Orb -->
-            <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-amber-400 animate-spin blur-md opacity-75"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <i class="fa-solid fa-graduation-cap text-3xl text-white animate-bounce"></i>
-            </div>
-            <h1 class="mt-6 text-3xl md:text-4xl font-cheerful font-bold text-gradient-cheerful tracking-wide text-center">
-                Muhammad Fadli Fadilah
-            </h1>
-            <p class="text-sm md:text-base text-gray-400 mt-2 font-medium tracking-widest uppercase">
-                XI TKJ 4 • SMK Taruna Bhakti
-            </p>
-            <!-- Enter Web Button -->
-            <button id="enter-btn" onclick="openWebsite()" class="mt-8 px-8 py-3 bg-gradient-to-r from-pink-500 via-purple-600 to-indigo-600 rounded-full font-semibold text-white shadow-lg hover:shadow-purple-500/50 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2 cursor-pointer">
-                <span>Jelajahi Profil</span>
-                <i class="fa-solid fa-arrow-right text-sm"></i>
-            </button>
-        </div>
+  <header>
+    <div class="container">
+      <h1>Selamat Datang!</h1>
+      <p>Website pribadi saya yang di-host di GitHub Pages</p>
     </div>
+  </header>
 
-    <!-- 3D Floating Bubbles Canvas -->
-    <canvas id="bg-canvas"></canvas>
+  <main class="container">
+    <section class="card">
+      <h2>Tentang Saya</h2>
+      <p>Halo! Ini adalah halaman website sederhana yang dikembangkan dan di-hosting menggunakan fitur GitHub Pages.</p>
+    </section>
 
-    <!-- Navigation Bar -->
-    <nav class="fixed top-0 left-0 w-full z-40 px-6 py-4 glass-card border-b border-white/10 transition-all duration-300">
-        <div class="max-w-6xl mx-auto flex items-center justify-between">
-            <!-- Logo / Name Badge -->
-            <a href="#hero" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-pink-500 to-purple-600 flex items-center justify-center font-cheerful font-bold text-xl shadow-lg group-hover:rotate-12 transition-transform">
-                    MF
-                </div>
-                <span class="font-cheerful text-lg md:text-xl font-bold tracking-wide text-white group-hover:text-pink-400 transition-colors">
-                    Fadli<span class="text-pink-500">.</span>dev
-                </span>
-            </a>
+    <section class="card">
+      <h2>Projek & Fitur</h2>
+      <ul>
+        <li>Responsive design (tampilan menyesuaikan layar HP & PC)</li>
+        <li>Hosting gratis dengan GitHub Pages</li>
+        <li>Menggunakan struktur HTML5 & CSS3 modern</li>
+      </ul>
+    </section>
+  </main>
 
-            <!-- Nav Links -->
-            <div class="hidden md:flex items-center gap-8 font-medium text-sm">
-                <a href="#hero" class="hover:text-pink-400 transition-colors">Beranda</a>
-                <a href="#about" class="hover:text-purple-400 transition-colors">Tentang</a>
-                <a href="#passion" class="hover:text-cyan-400 transition-colors">Passion</a>
-                <a href="#hobi" class="hover:text-amber-400 transition-colors">Hobi</a>
-            </div>
+  <footer>
+    <p>&copy; 2026 - Dibuat dengan GitHub Pages</p>
+  </footer>
 
-            <!-- GitHub Button -->
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-full glass-card hover:bg-white/10 text-xs md:text-sm font-semibold flex items-center gap-2 border border-white/20 hover:border-pink-500 transition-all">
-                <i class="fa-brands fa-github text-lg"></i>
-                <span>GitHub</span>
-            </a>
-        </div>
-    </nav>
-
-    <!-- Main Scrollable Container -->
-    <main class="relative z-10 pt-24 pb-16 px-4 md:px-8 max-w-6xl mx-auto space-y-24">
-
-        <!-- Hero Section -->
-        <section id="hero" class="min-h-[85vh] flex flex-col justify-center items-center text-center relative section-slide visible">
-            <!-- Decorative Bubble Badge -->
-            <div class="bubble-tag inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 mb-6 text-sm font-semibold shadow-inner">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                <span>Siswa SMK Taruna Bhakti</span>
-            </div>
-
-            <!-- Animated Name Title -->
-            <h1 class="text-4xl md:text-7xl font-cheerful font-extrabold tracking-tight text-gradient-cheerful mb-4 leading-tight">
-                Muhammad Fadli Fadilah
-            </h1>
-
-            <p class="text-lg md:text-2xl text-gray-300 font-medium max-w-2xl mb-8">
-                Siswa Aktif <span class="text-cyan-400 font-bold underline decoration-cyan-500/50">XI TKJ 4</span> • Tech Enthusiast & Future Digital Creator 🚀
-            </p>
-
-            <!-- Dynamic Interactive Badge Bubbles -->
-            <div class="flex flex-wrap justify-center gap-3 mb-12 max-w-3xl">
-                <span class="bubble-tag px-5 py-2.5 rounded-2xl glass-card-bright text-pink-300 font-semibold text-sm border-pink-500/30 flex items-center gap-2">
-                    <i class="fa-solid fa-network-wired text-pink-400"></i> Teknik Komputer & Jaringan
-                </span>
-                <span class="bubble-tag px-5 py-2.5 rounded-2xl glass-card-bright text-purple-300 font-semibold text-sm border-purple-500/30 flex items-center gap-2">
-                    <i class="fa-solid fa-video text-purple-400"></i> Content Creator
-                </span>
-                <span class="bubble-tag px-5 py-2.5 rounded-2xl glass-card-bright text-cyan-300 font-semibold text-sm border-cyan-500/30 flex items-center gap-2">
-                    <i class="fa-solid fa-laptop-code text-cyan-400"></i> Freelancer
-                </span>
-                <span class="bubble-tag px-5 py-2.5 rounded-2xl glass-card-bright text-amber-300 font-semibold text-sm border-amber-500/30 flex items-center gap-2">
-                    <i class="fa-solid fa-bullhorn text-amber-400"></i> Affiliator
-                </span>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex flex-wrap gap-4 justify-center">
-                <a href="#about" class="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-pink-500 to-purple-600 font-semibold text-white shadow-xl hover:shadow-pink-500/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
-                    <span>Lihat Biodata</span>
-                    <i class="fa-solid fa-user-circle"></i>
-                </a>
-                <a href="#contact" class="px-8 py-3.5 rounded-2xl glass-card font-semibold text-gray-200 hover:bg-white/10 hover:border-white/40 hover:scale-105 active:scale-95 transition-all flex items-center gap-2">
-                    <span>Kontak Saya</span>
-                    <i class="fa-solid fa-paper-plane"></i>
-                </a>
-            </div>
-
-            <!-- Scroll Down Indicator -->
-            <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce-slow text-gray-400 flex flex-col items-center gap-2">
-                <span class="text-xs uppercase tracking-widest font-semibold">Scroll Down</span>
-                <i class="fa-solid fa-chevron-down text-sm text-pink-400"></i>
-            </div>
-        </section>
-
-        <!-- About & School Section -->
-        <section id="about" class="section-slide py-12">
-            <div class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden border border-white/10 shadow-2xl">
-                <!-- Background Glowing Wave Element -->
-                <div class="absolute top-0 right-0 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl -z-10"></div>
-                <div class="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl -z-10"></div>
-
-                <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                    <!-- Profile Avatar Box -->
-                    <div class="relative group">
-                        <div class="w-40 h-40 md:w-52 md:h-52 rounded-3xl bg-gradient-to-tr from-pink-500 via-purple-600 to-cyan-400 p-1 shadow-2xl transition-transform duration-500 group-hover:scale-105 group-hover:rotate-2">
-                            <div class="w-full h-full bg-slate-900 rounded-[22px] flex flex-col items-center justify-center p-4 text-center">
-                                <i class="fa-solid fa-user-astronaut text-6xl md:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 mb-2"></i>
-                                <span class="font-cheerful font-bold text-sm text-pink-300">Fadli Fadilah</span>
-                            </div>
-                        </div>
-                        <!-- Floating Badge -->
-                        <div class="absolute -bottom-3 -right-3 bg-gradient-to-r from-amber-400 to-pink-500 text-slate-950 font-bold px-4 py-1.5 rounded-full text-xs shadow-lg animate-bounce-slow">
-                            XI TKJ 4 🎓
-                        </div>
-                    </div>
-
-                    <!-- Content Details -->
-                    <div class="flex-1 space-y-6 text-center md:text-left">
-                        <div class="inline-block px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold">
-                            Biodata Singkat
-                        </div>
-                        <h2 class="text-3xl md:text-4xl font-cheerful font-bold text-white">
-                            Siswa Jurusan <span class="text-gradient">TKJ</span> Berbakat & Kreatif
-                        </h2>
-                        <p class="text-gray-300 leading-relaxed text-sm md:text-base">
-                            Halo! Saya <strong class="text-white">Muhammad Fadli Fadilah</strong>, seorang pelajar di 
-                            <span class="text-pink-400 font-semibold">SMK Taruna Bhakti</span> kelas <span class="text-purple-400 font-semibold">XI TKJ 4</span>. Saya memiliki passion yang kuat di dunia jaringan komputer, teknologi informasi, pembuatan konten digital, serta pemasaran afiliasi.
-                        </p>
-
-                        <!-- Key Details Cards -->
-                        <div class="grid grid-cols-2 gap-4 pt-2">
-                            <div class="p-4 rounded-2xl glass-card border border-white/5 hover:border-pink-500/30 transition-all text-left">
-                                <p class="text-xs text-gray-400 uppercase font-semibold">Sekolah</p>
-                                <p class="text-sm md:text-base font-bold text-white mt-1">SMK Taruna Bhakti</p>
-                            </div>
-                            <div class="p-4 rounded-2xl glass-card border border-white/5 hover:border-purple-500/30 transition-all text-left">
-                                <p class="text-xs text-gray-400 uppercase font-semibold">Kelas / Jurusan</p>
-                                <p class="text-sm md:text-base font-bold text-white mt-1">XI TKJ 4</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Passion / Cita-Cita Section -->
-        <section id="passion" class="section-slide py-8">
-            <div class="text-center mb-12">
-                <span class="px-4 py-1.5 rounded-full bg-pink-500/10 border border-pink-500/30 text-pink-300 text-xs font-semibold uppercase tracking-wider">
-                    Cita-Cita & Karir
-                </span>
-                <h2 class="text-3xl md:text-5xl font-cheerful font-bold text-white mt-3">
-                    Passion & <span class="text-gradient-cheerful">Impian Saya</span>
-                </h2>
-                <p class="text-gray-400 text-sm md:text-base mt-2 max-w-xl mx-auto">
-                    Fokus karir dan bidang ekspertis digital yang terus saya kembangkan.
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Card 1: Content Creator -->
-                <div class="glass-card rounded-3xl p-6 border border-pink-500/20 hover:border-pink-500 transition-all hover:-translate-y-2 group">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-pink-500 to-rose-400 flex items-center justify-center text-white text-2xl shadow-lg mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-clapperboard"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-cheerful text-white mb-2">Content Creator</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        Membuat konten digital yang menarik, edukatif, dan menghibur di berbagai platform media sosial seputar teknologi & gaya hidup.
-                    </p>
-                </div>
-
-                <!-- Card 2: Freelancer -->
-                <div class="glass-card rounded-3xl p-6 border border-purple-500/20 hover:border-purple-500 transition-all hover:-translate-y-2 group">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-500 to-indigo-500 flex items-center justify-center text-white text-2xl shadow-lg mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-laptop-code"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-cheerful text-white mb-2">Freelancer</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        Menawarkan solusi fleksibel dalam pengerjaan proyek teknis IT, jaringan, dan layanan kreatif secara profesional.
-                    </p>
-                </div>
-
-                <!-- Card 3: Affiliator -->
-                <div class="glass-card rounded-3xl p-6 border border-amber-500/20 hover:border-amber-500 transition-all hover:-translate-y-2 group">
-                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-white text-2xl shadow-lg mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fa-solid fa-chart-line"></i>
-                    </div>
-                    <h3 class="text-xl font-bold font-cheerful text-white mb-2">Affiliator</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed">
-                        Mengembangkan strategi Digital Affiliate Marketing untuk mempromosikan produk-produk berkualitas tinggi.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Hobi / Sports Section -->
-        <section id="hobi" class="section-slide py-8">
-            <div class="text-center mb-12">
-                <span class="px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold uppercase tracking-wider">
-                    Gaya Hidup Sehat
-                </span>
-                <h2 class="text-3xl md:text-5xl font-cheerful font-bold text-white mt-3">
-                    Hobi & <span class="text-gradient">Kegiatan Favorit</span>
-                </h2>
-                <p class="text-gray-400 text-sm md:text-base mt-2">
-                    Aktivitas olahraga yang menjaga energi dan semangat saya tetap tinggi!
-                </p>
-            </div>
-
-            <!-- Hobi Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <!-- Running -->
-                <div class="bubble-tag glass-card p-6 rounded-3xl text-center border border-pink-500/20 hover:border-pink-400 cursor-pointer">
-                    <div class="w-16 h-16 mx-auto rounded-full bg-pink-500/20 flex items-center justify-center text-pink-400 text-3xl mb-4">
-                        <i class="fa-solid fa-person-running"></i>
-                    </div>
-                    <h4 class="font-cheerful font-bold text-lg text-white">Running</h4>
-                    <p class="text-xs text-gray-400 mt-1">Lari & Endurance</p>
-                </div>
-
-                <!-- Volleyball -->
-                <div class="bubble-tag glass-card p-6 rounded-3xl text-center border border-purple-500/20 hover:border-purple-400 cursor-pointer">
-                    <div class="w-16 h-16 mx-auto rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 text-3xl mb-4">
-                        <i class="fa-solid fa-volleyball"></i>
-                    </div>
-                    <h4 class="font-cheerful font-bold text-lg text-white">Volleyball</h4>
-                    <p class="text-xs text-gray-400 mt-1">Voli & Teamwork</p>
-                </div>
-
-                <!-- Badminton -->
-                <div class="bubble-tag glass-card p-6 rounded-3xl text-center border border-cyan-500/20 hover:border-cyan-400 cursor-pointer">
-                    <div class="w-16 h-16 mx-auto rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-400 text-3xl mb-4">
-                        <i class="fa-solid fa-shuttlecock"></i>
-                    </div>
-                    <h4 class="font-cheerful font-bold text-lg text-white">Badminton</h4>
-                    <p class="text-xs text-gray-400 mt-1">Bulu Tangkis</p>
-                </div>
-
-                <!-- Cycling -->
-                <div class="bubble-tag glass-card p-6 rounded-3xl text-center border border-emerald-500/20 hover:border-emerald-400 cursor-pointer">
-                    <div class="w-16 h-16 mx-auto rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-3xl mb-4">
-                        <i class="fa-solid fa-person-biking"></i>
-                    </div>
-                    <h4 class="font-cheerful font-bold text-lg text-white">Cycling</h4>
-                    <p class="text-xs text-gray-400 mt-1">Gowes & Jelajah</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact & Footer Section -->
-        <section id="contact" class="section-slide py-12">
-            <div class="glass-card-bright rounded-3xl p-8 md:p-12 text-center relative overflow-hidden border border-purple-500/30">
-                <h2 class="text-3xl md:text-4xl font-cheerful font-bold text-white mb-4">
-                    Mari Terhubung & <span class="text-gradient-cheerful">Berkolaborasi!</span>
-                </h2>
-                <p class="text-gray-300 max-w-xl mx-auto text-sm md:text-base mb-8">
-                    Tertarik untuk bekerja sama, membuat konten bersama, atau diskusi seputar dunia IT? Hubungi saya kapan saja!
-                </p>
-
-                <!-- Social Links Buttons -->
-                <div class="flex flex-wrap justify-center gap-4 mb-8">
-                    <a href="https://github.com" target="_blank" class="px-6 py-3 rounded-2xl glass-card hover:bg-white/20 text-white font-semibold flex items-center gap-2 border border-white/20 hover:scale-105 transition-all">
-                        <i class="fa-brands fa-github text-xl text-pink-400"></i>
-                        <span>GitHub</span>
-                    </a>
-                    <a href="https://instagram.com" target="_blank" class="px-6 py-3 rounded-2xl glass-card hover:bg-white/20 text-white font-semibold flex items-center gap-2 border border-white/20 hover:scale-105 transition-all">
-                        <i class="fa-brands fa-instagram text-xl text-purple-400"></i>
-                        <span>Instagram</span>
-                    </a>
-                    <a href="https://tiktok.com" target="_blank" class="px-6 py-3 rounded-2xl glass-card hover:bg-white/20 text-white font-semibold flex items-center gap-2 border border-white/20 hover:scale-105 transition-all">
-                        <i class="fa-brands fa-tiktok text-xl text-cyan-400"></i>
-                        <span>TikTok</span>
-                    </a>
-                </div>
-
-                <div class="border-t border-white/10 pt-6 text-xs text-gray-400 font-medium">
-                    © 2026 Muhammad Fadli Fadilah • SMK Taruna Bhakti (XI TKJ 4)
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <script>
-        /* ----------------------------------------------------
-           1. THREE.JS - 3D FLOATING BUBBLES BACKGROUND
-        ---------------------------------------------------- */
-        let scene, camera, renderer, bubblesMesh;
-        const bubbleCount = 70;
-        const bubbles = [];
-
-        function initThree() {
-            const canvas = document.getElementById('bg-canvas');
-            scene = new THREE.Scene();
-
-            // Camera setup
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 30;
-
-            // Renderer setup
-            renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-            // Create Bubble Spheres
-            const geometry = new THREE.SphereGeometry(0.8, 32, 32);
-
-            // Colorful bubble materials
-            const colors = [0xEC4899, 0x8B5CF6, 0x06B6D4, 0xF59E0B, 0x10B981];
-
-            for (let i = 0; i < bubbleCount; i++) {
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                const material = new THREE.MeshPhongMaterial({
-                    color: color,
-                    transparent: true,
-                    opacity: 0.45,
-                    shininess: 100,
-                    wireframe: Math.random() > 0.8
-                });
-
-                const bubble = new THREE.Mesh(geometry, material);
-
-                // Random positions
-                bubble.position.x = (Math.random() - 0.5) * 60;
-                bubble.position.y = (Math.random() - 0.5) * 60;
-                bubble.position.z = (Math.random() - 0.5) * 40;
-
-                // Scale variation
-                const scale = Math.random() * 1.5 + 0.5;
-                bubble.scale.set(scale, scale, scale);
-
-                // Custom velocity property
-                bubble.userData = {
-                    speedY: Math.random() * 0.03 + 0.01,
-                    speedX: (Math.random() - 0.5) * 0.01,
-                    rotSpeed: Math.random() * 0.02
-                };
-
-                scene.add(bubble);
-                bubbles.push(bubble);
-            }
-
-            // Lighting setup
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-            scene.add(ambientLight);
-
-            const pointLight = new THREE.PointLight(0xffffff, 1.2);
-            pointLight.position.set(20, 20, 20);
-            scene.add(pointLight);
-
-            // Responsive Window Listener
-            window.addEventListener('resize', onWindowResize);
-        }
-
-        function animateThree() {
-            requestAnimationFrame(animateThree);
-
-            // Animate each bubble
-            bubbles.forEach(b => {
-                b.position.y += b.userData.speedY;
-                b.position.x += b.userData.speedX;
-                b.rotation.x += b.userData.rotSpeed;
-                b.rotation.y += b.userData.rotSpeed;
-
-                // Reset position when off screen
-                if (b.position.y > 35) {
-                    b.position.y = -35;
-                    b.position.x = (Math.random() - 0.5) * 60;
-                }
-            });
-
-            renderer.render(scene, camera);
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        /* ----------------------------------------------------
-           2. SPLASH SCREEN & SMOOTH ENTER ANIMATION
-        ---------------------------------------------------- */
-        function openWebsite() {
-            const splash = document.getElementById('splash-screen');
-            splash.style.opacity = '0';
-            splash.style.visibility = 'hidden';
-            
-            // Trigger initial reveal of hero content
-            setTimeout(() => {
-                handleScrollAnimation();
-            }, 300);
-        }
-
-        /* ----------------------------------------------------
-           3. INTERACTIVE SLIDE ANIMATION ON SCROLL
-        ---------------------------------------------------- */
-        function handleScrollAnimation() {
-            const sections = document.querySelectorAll('.section-slide');
-            const triggerBottom = window.innerHeight * 0.85;
-
-            sections.forEach(section => {
-                const sectionTop = section.getBoundingClientRect().top;
-                if (sectionTop < triggerBottom) {
-                    section.classList.add('visible');
-                }
-            });
-        }
-
-        // Initialize Everything on Load
-        window.onload = function () {
-            initThree();
-            animateThree();
-
-            // Scroll Event Listener
-            window.addEventListener('scroll', handleScrollAnimation);
-            handleScrollAnimation(); // Initial check
-        };
-    </script>
 </body>
 </html>
