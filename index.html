@@ -18,6 +18,103 @@ body {
   overflow-x: hidden;
 }
 
+/* ================= NAVBAR / MENU ================= */
+.navbar {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  padding: 14px 30px;
+  background: rgba(10, 10, 35, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,215,0,0.2);
+  z-index: 300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  transition: all 0.4s ease;
+}
+
+.navbar.scrolled {
+  padding: 10px 30px;
+  background: rgba(10, 10, 35, 0.95);
+  box-shadow: 0 15px 50px rgba(0,0,0,0.8), 0 0 30px rgba(255,215,0,0.1);
+}
+
+.nav-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #fff, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nav-brand .avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #05051a;
+  font-weight: 900;
+  font-size: 0.9rem;
+  box-shadow: 0 0 20px rgba(255,215,0,0.6);
+  border: 2px solid rgba(255,255,255,0.4);
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 8px;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: #e0e0ff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 50px;
+  transition: all 0.35s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.5px;
+  border: 1px solid transparent;
+}
+
+.nav-menu li a:hover,
+.nav-menu li a.active {
+  background: linear-gradient(135deg, rgba(255,215,0,0.2), rgba(255,140,0,0.1));
+  border-color: rgba(255,215,0,0.5);
+  color: #ffd700;
+  box-shadow: 0 0 20px rgba(255,215,0,0.3);
+  transform: translateY(-2px);
+}
+
+.nav-menu li a i {
+  font-size: 0.75rem;
+  color: #ffd700;
+}
+
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #ffd700;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
 /* ================= LANGIT ================= */
 .sky {
   position: fixed;
@@ -36,7 +133,7 @@ body {
 
 .moon {
   position: absolute;
-  top: 60px; right: 80px;
+  top: 100px; right: 80px;
   width: 90px; height: 90px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, #fffbe6, #ffe9a8 60%, #f5c75a 100%);
@@ -126,11 +223,12 @@ body {
 .content {
   position: relative;
   z-index: 5;
+  padding-top: 70px;
 }
 
 section {
   min-height: 100vh;
-  padding: 100px 25px 80px;
+  padding: 90px 25px 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -140,6 +238,7 @@ section {
   transform: translateY(80px);
   transition: opacity 1s cubic-bezier(0.65,0,0.35,1),
               transform 1s cubic-bezier(0.65,0,0.35,1);
+  scroll-margin-top: 70px;
 }
 
 section.reveal {
@@ -233,6 +332,7 @@ section.reveal {
   font-weight: 300;
 }
 
+/* ====== HOBI GRID ====== */
 .hobi-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -290,6 +390,83 @@ section.reveal {
   font-weight: 300;
 }
 
+/* ====== KERJA TKJ GRID ====== */
+.kerja-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 22px;
+  margin-top: 30px;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.kerja-card {
+  background: rgba(255,255,255,0.07);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(100,180,255,0.35);
+  border-radius: 20px;
+  padding: 0;
+  transition: all 0.5s cubic-bezier(0.65,0,0.35,1);
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+}
+
+.kerja-card:hover {
+  transform: translateY(-12px) scale(1.04);
+  border-color: #ffd700;
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.8),
+    0 0 45px rgba(100,180,255,0.5);
+}
+
+.kerja-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.kerja-card:hover img { transform: scale(1.12); }
+
+.kerja-info {
+  padding: 15px 15px 20px;
+  text-align: center;
+}
+
+.kerja-info h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: #ffd700;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.kerja-info p {
+  font-size: 0.8rem;
+  color: #cfcfff;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.kerja-badge {
+  position: absolute;
+  top: 12px; right: 12px;
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: #05051a;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 50px;
+  box-shadow: 0 5px 15px rgba(255,215,0,0.5);
+  letter-spacing: 0.5px;
+}
+
+/* ====== PASSION ====== */
 .passion-list {
   display: flex;
   flex-wrap: wrap;
@@ -326,6 +503,52 @@ section.reveal {
 
 .passion-item i { color: #ffd700; }
 
+/* ====== MOTTO BERGoyang ====== */
+.motto-box {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 2px solid rgba(255,215,0,0.5);
+  border-radius: 25px;
+  padding: 35px 30px;
+  margin: 20px auto;
+  max-width: 720px;
+  animation: shake 3s ease-in-out infinite;
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.7),
+    0 0 50px rgba(255,215,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+  position: relative;
+}
+
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  15% { transform: rotate(-1.2deg) scale(1.01); }
+  30% { transform: rotate(1.2deg) scale(1.01); }
+  45% { transform: rotate(-0.8deg) scale(1); }
+  60% { transform: rotate(0.8deg) scale(1); }
+  75% { transform: rotate(-0.4deg) scale(1); }
+  90% { transform: rotate(0.4deg) scale(1); }
+}
+
+.motto-box h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem;
+  color: #ffd700;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 20px rgba(255,215,0,0.6);
+}
+
+.motto-box p {
+  font-style: italic;
+  font-size: 1.15rem;
+  color: #ffd700;
+  line-height: 1.8;
+  font-weight: 500;
+}
+
+/* ====== SOSIAL ====== */
 .social-row {
   margin-top: 28px;
   display: flex;
@@ -347,6 +570,7 @@ section.reveal {
   filter: drop-shadow(0 0 22px rgba(255,215,0,1));
 }
 
+/* ====== SCROLL HINT ====== */
 .scroll-hint {
   position: fixed;
   bottom: 30px;
@@ -376,7 +600,7 @@ section.reveal {
   height: 4px;
   width: 0%;
   background: linear-gradient(90deg, #ffd700, #ff8c00, #ff0066, #a000ff);
-  z-index: 200;
+  z-index: 400;
   box-shadow: 0 0 18px rgba(255,215,0,0.8);
   transition: width 0.15s linear;
 }
@@ -410,19 +634,44 @@ section.reveal {
 
 .dot:hover { background: rgba(255,215,0,0.6); transform: scale(1.2); }
 
+/* ====== RESPONSIVE ====== */
+@media (max-width: 900px) {
+  .nav-toggle { display: block; }
+  .nav-menu {
+    position: fixed;
+    top: 65px; right: 15px;
+    flex-direction: column;
+    background: rgba(10,10,35,0.97);
+    backdrop-filter: blur(20px);
+    padding: 15px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,215,0,0.3);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.65,0,0.35,1);
+    min-width: 200px;
+  }
+  .nav-menu.open { transform: translateX(0); }
+  .nav-menu li a { padding: 10px 18px; justify-content: flex-start; width: 100%; }
+}
+
 @media (max-width: 768px) {
-  .moon { width: 65px; height: 65px; top: 40px; right: 45px; }
+  .moon { width: 65px; height: 65px; top: 80px; right: 45px; }
   .zodiac-icon { font-size: 3.5rem; }
   .nav-dots { right: 12px; gap: 10px; }
   .dot { width: 11px; height: 11px; }
   .hobi-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .hobi-card img { height: 85px; }
-  .info-card { padding: 25px 20px; }
+  .info-card, .motto-box { padding: 25px 20px; }
+  .navbar { padding: 12px 18px; }
+  .nav-brand { font-size: 0.95rem; }
+  .kerja-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .kerja-card img { height: 110px; }
   .scroll-hint { font-size: 0.68rem; letter-spacing: 2px; }
 }
 
 @media (max-width: 480px) {
-  .hobi-grid { grid-template-columns: 1fr; }
+  .hobi-grid, .kerja-grid { grid-template-columns: 1fr; }
   .passion-item { padding: 10px 18px; font-size: 0.85rem; }
 }
 </style>
@@ -431,38 +680,60 @@ section.reveal {
 
 <div class="progress-bar" id="progressBar"></div>
 
+<!-- ====== NAVBAR ====== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-brand">
+    <div class="avatar">MF</div>
+    <span>Fadli Fadilah</span>
+  </div>
+  <button class="nav-toggle" id="navToggle"><i class="fas fa-bars"></i></button>
+  <ul class="nav-menu" id="navMenu">
+    <li><a href="#sec1" class="active"><i class="fas fa-home"></i> Profil</a></li>
+    <li><a href="#sec2"><i class="fas fa-futbol"></i> Hobi</a></li>
+    <li><a href="#sec3"><i class="fas fa-briefcase"></i> Kerja TKJ</a></li>
+    <li><a href="#sec4"><i class="fas fa-rocket"></i> Passion</a></li>
+    <li><a href="#sec5"><i class="fas fa-star"></i> Motto</a></li>
+  </ul>
+</nav>
+
+<!-- ====== LANGIT ====== -->
 <div class="sky" id="sky">
   <div class="moon"></div>
 </div>
 
+<!-- ====== BUBBLE ====== -->
 <div class="tkj-bubbles" id="tkjBubbles"></div>
 
+<!-- ====== NAV DOTS ====== -->
 <div class="nav-dots" id="navDots"></div>
 
+<!-- ====== SCROLL HINT ====== -->
 <div class="scroll-hint" id="scrollHint">Scroll ↓</div>
 
+<!-- ====== KONTEN ====== -->
 <div class="content">
 
-  <!-- SECTION 1 -->
+  <!-- SECTION 1: PROFIL (AQUARIUS) -->
   <section id="sec1">
-    <div class="zodiac-icon">♌</div>
-    <div class="zodiac-name">Leo — Sagitarius Rising</div>
+    <div class="zodiac-icon">♒</div>
+    <div class="zodiac-name">Aquarius — Zodiak Saya</div>
     <h1 class="title">Muhammad Fadli Fadilah</h1>
     <p class="subtitle">XI TKJ 4 • Teknik Komputer &amp; Jaringan</p>
     <div class="info-card">
       <h3><i class="fas fa-user-astronaut"></i> Tentang Saya</h3>
       <p>
-        Seorang pelajar yang penuh semangat di jurusan <b>Teknik Komputer &amp; Jaringan (TKJ)</b>,
-        dengan jiwa kreatif dan ambisi besar di dunia digital. Suka tantangan, cepat belajar,
-        dan selalu ingin berkembang menjadi versi terbaik dari diri sendiri.
+        Seorang pelajar <b>Aquarius</b> yang penuh semangat di jurusan
+        <b>Teknik Komputer &amp; Jaringan (TKJ)</b>. Kreatif, inovatif, dan suka
+        hal-hal baru di dunia teknologi. Cepat belajar, senang tantangan,
+        dan selalu ingin berkembang jadi versi terbaik dari diri sendiri.
       </p>
     </div>
   </section>
 
-  <!-- SECTION 2 -->
+  <!-- SECTION 2: HOBI -->
   <section id="sec2">
     <div class="zodiac-icon">♐</div>
-    <div class="zodiac-name">Sagittarius — Jiwa Petualang</div>
+    <div class="zodiac-name">Sagittarius Rising — Jiwa Petualang</div>
     <h1 class="title">Hobi &amp; Aktivitas</h1>
     <p class="subtitle">Energi Positif Setiap Hari</p>
     <div class="hobi-grid">
@@ -489,8 +760,76 @@ section.reveal {
     </div>
   </section>
 
-  <!-- SECTION 3 -->
+  <!-- SECTION 3: KERJA TKJ -->
   <section id="sec3">
+    <div class="zodiac-icon">💻</div>
+    <div class="zodiac-name">Prospek Karier — Jurusan TKJ</div>
+    <h1 class="title">Peluang Kerja TKJ</h1>
+    <p class="subtitle">Beragam Profesi di Dunia Teknologi</p>
+    <div class="kerja-grid">
+      <div class="kerja-card">
+        <span class="kerja-badge">POPULER</span>
+        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&q=80" alt="Network Engineer">
+        <div class="kerja-info">
+          <h4>🌐 Network Engineer</h4>
+          <p>Merancang & mengelola jaringan komputer skala besar</p>
+        </div>
+      </div>
+      <div class="kerja-card">
+        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=500&q=80" alt="Cyber Security">
+        <div class="kerja-info">
+          <h4>🛡️ Cyber Security</h4>
+          <p>Melindungi sistem dari serangan hacker & malware</p>
+        </div>
+      </div>
+      <div class="kerja-card">
+        <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?w=500&q=80" alt="Teknisi Komputer">
+        <div class="kerja-info">
+          <h4>🔧 Teknisi Komputer</h4>
+          <p>Servis & perbaikan hardware/software komputer</p>
+        </div>
+      </div>
+      <div class="kerja-card">
+        <span class="kerja-badge">HOT</span>
+        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&q=80" alt="Cloud Engineer">
+        <div class="kerja-info">
+          <h4>☁️ Cloud Engineer</h4>
+          <p>Mengelola server & layanan berbasis cloud (AWS, GCP)</p>
+        </div>
+      </div>
+      <div class="kerja-card">
+        <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=500&q=80" alt="Web Developer">
+        <div class="kerja-info">
+          <h4>💻 Web Developer</h4>
+          <p>Membangun website & aplikasi berbasis web</p>
+        </div>
+      </div>
+      <div class="kerja-card">
+        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&q=80" alt="Data Analyst">
+        <div class="kerja-info">
+          <h4>📊 Data Analyst</h4>
+          <p>Menganalisis data untuk kebutuhan bisnis & teknologi</p>
+        </div>
+      </div>
+      <div class="kerja-card">
+        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt="IT Support">
+        <div class="kerja-info">
+          <h4>🎧 IT Support</h4>
+          <p>Membantu user menyelesaikan masalah teknis IT</p>
+        </div>
+      </div>
+      <div class="kerja-card">
+        <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&q=80" alt="IoT Engineer">
+        <div class="kerja-info">
+          <h4>📡 IoT Engineer</h4>
+          <p>Mengembangkan perangkat pintar berbasis Internet of Things</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: PASSION -->
+  <section id="sec4">
     <div class="zodiac-icon">♑</div>
     <div class="zodiac-name">Capricorn — Ambisi Tak Terbatas</div>
     <h1 class="title">Passion &amp; Cita-Cita</h1>
@@ -501,186 +840,3 @@ section.reveal {
         Membangun karier di dunia digital sebagai <b>Content Creator</b>,
         <b>Affiliator</b>, dan <b>Freelancer</b> profesional.
         Menggabungkan kreativitas, teknologi, dan bisnis online
-        untuk menciptakan karya yang bermanfaat dan menginspirasi banyak orang.
-      </p>
-    </div>
-    <div class="passion-list">
-      <div class="passion-item"><i class="fas fa-video"></i> Content Creator</div>
-      <div class="passion-item"><i class="fas fa-handshake"></i> Affiliator</div>
-      <div class="passion-item"><i class="fas fa-laptop-code"></i> Freelancer</div>
-      <div class="passion-item"><i class="fas fa-chart-line"></i> Digital Marketing</div>
-    </div>
-  </section>
-
-  <!-- SECTION 4 -->
-  <section id="sec4">
-    <div class="zodiac-icon">♓</div>
-    <div class="zodiac-name">Pisces — Kreativitas Tanpa Batas</div>
-    <h1 class="title">Terima Kasih</h1>
-    <p class="subtitle">Let's Connect &amp; Collaborate</p>
-    <div class="info-card">
-      <h3><i class="fas fa-star"></i> Motto Hidup</h3>
-      <p style="font-style: italic; font-size: 1.15rem; color: #ffd700;">
-        "Terus belajar, terus berkarya, dan jangan pernah berhenti
-        bermimpi besar. Karena setiap langkah kecil hari ini adalah
-        fondasi kesuksesan di masa depan."
-      </p>
-      <div class="social-row">
-        <i class="fab fa-instagram"></i>
-        <i class="fab fa-youtube"></i>
-        <i class="fab fa-tiktok"></i>
-        <i class="fab fa-github"></i>
-      </div>
-    </div>
-  </section>
-
-</div>
-
-<script>
-/* ============ BINTANG DI LANGIT ============ */
-const sky = document.getElementById('sky');
-const starCount = window.innerWidth < 768 ? 70 : 140;
-
-function buatBintang() {
-  for (let i = 0; i < starCount; i++) {
-    const star = document.createElement('div');
-    star.className = 'star';
-    const size = Math.random() * 2.4 + 1;
-    star.style.width = size + 'px';
-    star.style.height = size + 'px';
-    star.style.left = Math.random() * 100 + '%';
-    star.style.top = Math.random() * 100 + '%';
-    star.style.animationDuration = (Math.random() * 3 + 1.5) + 's';
-    star.style.animationDelay = (Math.random() * 4) + 's';
-    if (Math.random() > 0.85) {
-      star.style.boxShadow = '0 0 8px 2px rgba(255,255,255,0.9)';
-    }
-    sky.appendChild(star);
-  }
-}
-buatBintang();
-
-/* ============ AWAN ============ */
-const cloudConfigs = [
-  { w: 260, h: 60, top: '18%', dur: 55, delay: 0 },
-  { w: 200, h: 50, top: '38%', dur: 70, delay: 12 },
-  { w: 320, h: 70, top: '8%',  dur: 85, delay: 25 },
-  { w: 180, h: 45, top: '48%', dur: 65, delay: 40 }
-];
-
-function buatAwan() {
-  cloudConfigs.forEach(cfg => {
-    const cloud = document.createElement('div');
-    cloud.className = 'cloud';
-    cloud.style.width = cfg.w + 'px';
-    cloud.style.height = cfg.h + 'px';
-    cloud.style.top = cfg.top;
-    cloud.style.animationDuration = cfg.dur + 's';
-    cloud.style.animationDelay = cfg.delay + 's';
-    sky.appendChild(cloud);
-  });
-}
-buatAwan();
-
-/* ============ BUBBLE TKJ ============ */
-const tkjIcons = [
-  'fa-network-wired',
-  'fa-server',
-  'fa-laptop-code',
-  'fa-wifi',
-  'fa-microchip',
-  'fa-ethernet',
-  'fa-database',
-  'fa-shield-halved',
-  'fa-cloud',
-  'fa-code',
-  'fa-terminal',
-  'fa-desktop'
-];
-
-const tkjContainer = document.getElementById('tkjBubbles');
-const bubbleCount = window.innerWidth < 768 ? 14 : 26;
-
-function buatBubble() {
-  for (let i = 0; i < bubbleCount; i++) {
-    const bubble = document.createElement('div');
-    bubble.className = 'tkj-bubble';
-
-    const size = Math.random() * 60 + 45;
-    bubble.style.width = size + 'px';
-    bubble.style.height = size + 'px';
-    bubble.style.left = Math.random() * 95 + '%';
-    bubble.style.animationDuration = (Math.random() * 18 + 14) + 's';
-    bubble.style.animationDelay = (Math.random() * 20) + 's';
-    bubble.style.fontSize = (size * 0.4) + 'px';
-
-    const isGold = Math.random() > 0.5;
-    const rgb = isGold ? '255,215,0' : '100,180,255';
-    bubble.style.borderColor = 'rgba(' + rgb + ',0.4)';
-    bubble.style.background = 'radial-gradient(circle at 30% 30%, rgba(' + rgb + ',0.25), rgba(' + rgb + ',0.05))';
-    bubble.style.boxShadow = '0 0 25px rgba(' + rgb + ',0.4), inset 0 0 20px rgba(' + rgb + ',0.25)';
-    bubble.style.color = 'rgba(' + rgb + ',0.95)';
-
-    const icon = document.createElement('i');
-    icon.className = 'fas ' + tkjIcons[Math.floor(Math.random() * tkjIcons.length)];
-    bubble.appendChild(icon);
-
-    tkjContainer.appendChild(bubble);
-  }
-}
-buatBubble();
-
-/* ============ REVEAL SCROLL ============ */
-const sections = document.querySelectorAll('section');
-const dotsContainer = document.getElementById('navDots');
-const progressBar = document.getElementById('progressBar');
-const scrollHint = document.getElementById('scrollHint');
-
-/* Buat dot navigasi */
-sections.forEach(function(sec, i) {
-  const dot = document.createElement('div');
-  dot.className = 'dot' + (i === 0 ? ' active' : '');
-  dot.addEventListener('click', function() {
-    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-  dotsContainer.appendChild(dot);
-});
-const dots = document.querySelectorAll('.dot');
-
-/* Observer */
-const observer = new IntersectionObserver(function(entries) {
-  entries.forEach(function(entry) {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('reveal');
-      const idx = Array.from(sections).indexOf(entry.target);
-      dots.forEach(function(d, i) {
-        d.classList.toggle('active', i === idx);
-      });
-    }
-  });
-}, { threshold: 0.3 });
-
-sections.forEach(function(sec) { observer.observe(sec); });
-
-/* Progress bar */
-function updateScroll() {
-  const scrolled = window.scrollY;
-  const total = document.documentElement.scrollHeight - window.innerHeight;
-  const pct = total > 0 ? (scrolled / total) * 100 : 0;
-  progressBar.style.width = pct + '%';
-
-  if (pct > 92) scrollHint.classList.add('hidden');
-  else scrollHint.classList.remove('hidden');
-}
-
-window.addEventListener('scroll', updateScroll, { passive: true });
-updateScroll();
-
-/* Reveal section pertama */
-window.addEventListener('load', function() {
-  if (sections[0]) sections[0].classList.add('reveal');
-});
-</script>
-
-</body>
-</html>
