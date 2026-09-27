@@ -46,15 +46,23 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #05051a;
-  font-weight: 900;
-  font-size: 0.9rem;
-  box-shadow: 0 0 20px rgba(255,215,0,0.6);
-  border: 2px solid rgba(255,255,255,0.4);
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  box-shadow:
+    0 0 20px rgba(255,215,0,0.6),
+    0 0 40px rgba(255,215,0,0.3);
+  border: 2px solid rgba(255,215,0,0.7);
+  flex-shrink: 0;
+}
+
+.nav-brand .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .nav-menu {
